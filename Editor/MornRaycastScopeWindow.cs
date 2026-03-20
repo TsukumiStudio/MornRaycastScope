@@ -127,8 +127,8 @@ namespace MornLib
         private void SetTitleWithIcon()
         {
             titleContent = _icon != null
-                ? new GUIContent("MornRaycastScope", _icon)
-                : new GUIContent("MornRaycastScope");
+                ? new GUIContent("Raycast", _icon)
+                : new GUIContent("Raycast");
         }
 
         private void LoadPrefs()
