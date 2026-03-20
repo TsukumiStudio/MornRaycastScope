@@ -1,6 +1,6 @@
 {
   "name": "com.tsukumistudio.mornraycastscope",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "MornRaycastScope",
   "description": "Unity SceneView上でUGUI RaycastTarget・Collider2D・Collider3Dを可視化するエディタツール。",
   "unity": "6000.0",

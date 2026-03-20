@@ -36,6 +36,7 @@ namespace MornLib
         private Texture2D _labelBgTexture;
         private string _version;
         private Texture2D _icon;
+        private Vector2 _scrollPos;
 
         // --- UGUI ---
         private bool _uguiEnabled;
@@ -261,6 +262,8 @@ namespace MornLib
 
         private void OnGUI()
         {
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+
             DrawHeader();
             EditorGUILayout.Space();
 
@@ -351,6 +354,8 @@ namespace MornLib
                 SavePrefs();
                 SceneView.RepaintAll();
             }
+
+            EditorGUILayout.EndScrollView();
         }
 
         private void DrawHeader()
