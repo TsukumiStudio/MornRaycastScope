@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -128,8 +129,18 @@ namespace MornLib
         private void SetTitleWithIcon()
         {
             titleContent = _icon != null
-                ? new GUIContent("Raycast", _icon)
+                ? new GUIContent(ToInvisibleUniqueText(nameof(MornRaycastScopeWindow)), _icon)
                 : new GUIContent("Raycast");
+        }
+
+        /// <summary>
+        /// 文字列を不可視Unicode文字列にエンコードする。
+        /// 空文字だとUnityが同一ウィンドウと誤認するため、ユニークかつ不可視な文字列が必要。
+        /// </summary>
+        private static string ToInvisibleUniqueText(string name)
+        {
+            const string k = "\u200B\u2060\uFEFF\u200E\u200F\u2061\u2062\u2063";
+            return string.Concat(name.Select(c => $"{k[c >> 3 & 7]}{k[c & 7]}"));
         }
 
         private void LoadPrefs()
