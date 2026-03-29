@@ -10,7 +10,7 @@
 
 ## 概要
 
-MornRaycastScope は、Unity SceneView 上で UGUI RaycastTarget・Collider2D・Collider3D を可視化するエディタツールです。
+Unity SceneView 上で UGUI RaycastTarget・Collider2D・Collider3D を可視化するエディタツールです。
 `Tools > MornRaycastScope` から開けます。
 
 ## 導入方法
