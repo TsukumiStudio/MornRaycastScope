@@ -1,7 +1,7 @@
 # MornRaycastScope
 
 <p align="center">
-  <img src="Editor/MornRaycastScope.png" alt="MornRaycastScope" width="640" />
+  <img src="src/Editor/MornRaycastScope.png" alt="MornRaycastScope" width="640" />
 </p>
 
 <p align="center">
@@ -18,7 +18,7 @@ Unity SceneView 上で UGUI RaycastTarget・Collider2D・Collider3D を可視化
 Unity Package Manager で以下の Git URL を追加:
 
 ```
-https://github.com/TsukumiStudio/MornRaycastScope.git
+https://github.com/TsukumiStudio/MornRaycastScope.git?path=src#1.0.4
 ```
 
 `Window > Package Manager > + > Add package from git URL...` に貼り付けてください。
@@ -34,6 +34,8 @@ https://github.com/TsukumiStudio/MornRaycastScope.git
 ### Collider2D
 
 - **Box / Circle / Capsule / Polygon / Edge** に対応
+- **CompositeCollider2D** に対応 — パス単位で描画
+- **TilemapCollider2D** に対応 — タイルが存在するセルを描画（`usedByComposite` 時は CompositeCollider2D 側で描画）
 - **Trigger / 非Trigger フィルタ** — ボタンで切替
 - 塗りつぶし・枠線・GameObject名ラベルを表示
 
@@ -58,6 +60,7 @@ https://github.com/TsukumiStudio/MornRaycastScope.git
 
 - SceneView 上の描画のみ対応（GameView には表示されません）
 - MeshCollider の可視化は頂点数に応じて負荷が増加します
+- TilemapCollider2D の可視化はセル単位の矩形描画です（タイル個別のカスタムコライダー形状は反映されません）
 
 ## ライセンス
 

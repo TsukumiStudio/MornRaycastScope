@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 namespace MornLib
@@ -677,6 +678,8 @@ namespace MornLib
                 case CapsuleCollider2D capsule: DrawCapsuleCollider2D(capsule, border); break;
                 case PolygonCollider2D polygon: DrawPolygonCollider2D(polygon, fill, border); break;
                 case EdgeCollider2D edge: DrawEdgeCollider2D(edge, border); break;
+                case CompositeCollider2D composite: DrawCompositeCollider2D(composite, fill, border); break;
+                case TilemapCollider2D tilemap: DrawTilemapCollider2D(tilemap, fill, border); break;
             }
 
             if (_showLabel)
@@ -771,6 +774,65 @@ namespace MornLib
             Handles.color = border;
             for (var i = 0; i < points.Length - 1; i++)
                 Handles.DrawLine(t.TransformPoint(points[i]), t.TransformPoint(points[i + 1]), _borderWidth);
+        }
+
+        private void DrawCompositeCollider2D(CompositeCollider2D composite, Color fill, Color border)
+        {
+            for (var p = 0; p < composite.pathCount; p++)
+            {
+                var pointCount = composite.GetPathPointCount(p);
+                if (pointCount < 2) continue;
+                var points = new Vector2[pointCount];
+                composite.GetPath(p, points);
+
+                var wp = new Vector3[pointCount];
+                var t = composite.transform;
+                for (var i = 0; i < pointCount; i++)
+                    wp[i] = t.TransformPoint(points[i]);
+
+                if (_showFill && pointCount >= 3)
+                {
+                    Handles.color = fill;
+                    Handles.DrawAAConvexPolygon(wp);
+                }
+                if (_showBorder)
+                {
+                    Handles.color = border;
+                    for (var i = 0; i < wp.Length; i++)
+                        Handles.DrawLine(wp[i], wp[(i + 1) % wp.Length], _borderWidth);
+                }
+            }
+        }
+
+        private void DrawTilemapCollider2D(TilemapCollider2D tilemapCollider, Color fill, Color border)
+        {
+            if (tilemapCollider.usedByComposite) return;
+            var tilemap = tilemapCollider.GetComponent<Tilemap>();
+            if (tilemap == null) return;
+
+            var bounds = tilemap.cellBounds;
+            var cellSize = tilemap.cellSize;
+
+            foreach (var pos in bounds.allPositionsWithin)
+            {
+                if (!tilemap.HasTile(pos)) continue;
+                var origin = tilemap.CellToWorld(pos);
+                var corners = new[]
+                {
+                    origin,
+                    origin + new Vector3(0, cellSize.y, 0),
+                    origin + new Vector3(cellSize.x, cellSize.y, 0),
+                    origin + new Vector3(cellSize.x, 0, 0),
+                };
+
+                if (_showFill) Handles.DrawSolidRectangleWithOutline(corners, fill, Color.clear);
+                if (_showBorder)
+                {
+                    Handles.color = border;
+                    for (var i = 0; i < 4; i++)
+                        Handles.DrawLine(corners[i], corners[(i + 1) % 4], _borderWidth);
+                }
+            }
         }
 
         // --- Collider3D Drawing ---
