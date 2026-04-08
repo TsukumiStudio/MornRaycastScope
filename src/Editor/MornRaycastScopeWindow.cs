@@ -790,11 +790,7 @@ namespace MornLib
                 for (var i = 0; i < pointCount; i++)
                     wp[i] = t.TransformPoint(points[i]);
 
-                if (_showFill && pointCount >= 3)
-                {
-                    Handles.color = fill;
-                    Handles.DrawAAConvexPolygon(wp);
-                }
+                // パスは凹多角形になりうるため、塗りつぶしは行わず枠線のみ描画
                 if (_showBorder)
                 {
                     Handles.color = border;
