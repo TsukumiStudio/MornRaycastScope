@@ -802,7 +802,7 @@ namespace MornLib
 
         private void DrawTilemapCollider2D(TilemapCollider2D tilemapCollider, Color fill, Color border)
         {
-            if (tilemapCollider.usedByComposite) return;
+            if (tilemapCollider.compositeOperation != Collider2D.CompositeOperation.None) return;
             var tilemap = tilemapCollider.GetComponent<Tilemap>();
             if (tilemap == null) return;
 
